@@ -15,3 +15,7 @@ RUN apk add --no-cache g++ make pkgconfig glib-dev expat-dev libexif giflib cair
 FROM alpine:3.11 as libvips-base
 
 COPY --from=libvips-builder /lib/vips /lib/vips
+
+# Postinstall, (hard)link vips to /usr and install operational libraries.
+
+RUN cp -rl /lib/vips/* /usr/ && apk add glib-dev librsvg-dev librsvg cairo libpng
