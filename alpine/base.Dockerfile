@@ -13,8 +13,8 @@ RUN echo -e "#!/bin/sh\napk add --no-cache --virtual vips-deps binutils g++ make
 	&& chmod +x /del.deps \
 	# Continue with dockerfile
 	&& sed -i 's/http:\/\/dl-cdn.alpinelinux.org/https:\/\/alpine-cf-cdn.jcx.ovh/' /etc/apk/repositories \
-	&& apk update \
-	&& apk upgrade \
+	&& apk --no-cache update \
+	&& apk --no-cache upgrade \
 	&& /add.deps \
 	&& wget  -O- https://github.com/libvips/libvips/releases/download/v$LIBVIPS_VERSION/vips-$LIBVIPS_VERSION.tar.gz | tar -xzC /tmp \
 	&& cd /tmp/vips-$LIBVIPS_VERSION \
@@ -31,4 +31,6 @@ RUN echo -e "#!/bin/sh\napk add --no-cache --virtual vips-deps binutils g++ make
 	&& apk add --no-cache \
 	glib librsvg cairo libpng libjpeg \
 	giflib libwebp orc tiff openexr \
-	&& rm -rf /var/cache-apk/*
+	&& rm -rf /var/cache-apk/* \
+	# Delete GTK documentation for vips, as gtk is not installed anyway.
+	&& rm -rf /usr/share/gtk-doc/*
