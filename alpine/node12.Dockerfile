@@ -10,4 +10,5 @@ COPY --from=0 /opt/ /opt/
 
 RUN apk upgrade --no-cache -U && \
     apk add --no-cache libstdc++ && \
-    node -v && npm -v && npx -v && yarn -v && yarnpkg -v
+    node -v && npm -v && npx -v && yarn -v && yarnpkg -v && \
+    rm -rf /var/cache-apk/* \
